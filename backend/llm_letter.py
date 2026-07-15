@@ -142,8 +142,8 @@ def _generate_llm_letter(
     
     loan_amt = applicant.get("loan_amount", 0)
     
-    system_prompt = """You are a senior credit risk compliance officer at a US bank. 
-You write adverse action notices and approval letters that comply with ECOA/Regulation B requirements.
+    system_prompt = """You are a senior credit risk compliance officer at an Indian financial institution. 
+You write adverse action notices and approval letters that comply with RBI Fair Practices Code and federal credit regulations.
 
 STRICT RULES:
 1. ONLY cite reasons that appear in the SHAP analysis provided — never invent additional factors.

@@ -1,8 +1,6 @@
 <div align="center">
 
-# 🛡️ CreditLens
-
-### Explainable AI (XAI) Credit Risk Evaluator
+# 🛡️ CreditLens - XAI Credit Risk Evaluator
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-REST_API-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-ML_Model-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://github.com/microsoft/LightGBM)
@@ -12,7 +10,7 @@
 
 ---
 
-*A compliance-first, transparent loan underwriting platform that replaces opaque ML models with mathematical explainability (SHAP TreeExplainer) and automatically generates regulatory-compliant Adverse Action notices or approval letters using an LLM. Fully aligns with fair lending regulation disclosure requirements.*
+*A compliance-first, transparent loan underwriting platform that replaces opaque ML models with mathematical explainability (SHAP TreeExplainer) and automatically generates regulatory-compliant adverse action notices or approval letters using an LLM. Fully aligns with RBI Fair Practices Code guidelines and federal fair lending disclosure requirements.*
 
 [Key Features »](#-key-features) · [System Architecture »](#-system-architecture) · [Getting Started »](#-getting-started) · [Model Quality & Metrics »](#-model-quality--metrics)
 
@@ -22,14 +20,14 @@
 
 ## 💡 The Problem (Regulatory Compliance in AI Lending)
 
-Traditional lending algorithms are **black boxes**. A predictive neural network or deep ensemble might accurately forecast defaults, but under fair lending regulations (e.g. the US Equal Credit Opportunity Act & Regulation B), **lenders are legally prohibited from denying credit without explaining the specific, principal reasons why.**
+Traditional lending algorithms are **black boxes**. A predictive neural network or deep ensemble might accurately forecast defaults, but under credit regulations (such as the RBI Fair Practices Code and federal lending guidelines), **lenders are legally required to explain the specific, principal reasons for credit decisions or adverse actions.**
 
 CreditLens solves this gap by wrapping a high-performance **LightGBM binary classifier** inside a local explanation framework (**SHAP**), then feeding those exact mathematical attributions to **Llama 3.3** to construct a clear, compliant notice:
 
 | Traditional Credit Risk AI | CreditLens (XAI) |
 |:---|:---|
 | ❌ "Application Denied: Risk score 0.78." | ✅ "Application Denied: Default risk is 78.0%." |
-| ❌ No explanation (illegal under Reg B). | ✅ Ranked list of principal drivers (e.g. utilization at 94.2%). |
+| ❌ No explanation (violates RBI & lending guidelines). | ✅ Ranked list of principal drivers (e.g. utilization at 94.2%). |
 | ❌ Hallucinated reasons by general LLMs. | ✅ Grounded adverse action letter based strictly on SHAP math. |
 | ❌ Lack of transparency for compliance officers. | ✅ Audit trail showing confusion matrices and metric validations. |
 
@@ -43,6 +41,26 @@ CreditLens solves this gap by wrapping a high-performance **LightGBM binary clas
 - **Interactive Risk Dashboard** — Renders decision metrics, risk probability gauges, local SHAP waterfall charts (built client-side in Recharts), and styled letters.
 - **Demo Presets** — Quick-load buttons representing Tier-A (Low Risk), Borderline, and High Risk profiles for instant evaluation.
 - **Model Validation Panel** — Displays live performance metrics (AUC, F1, Precision, Recall), confusion matrices, and global feature importance.
+
+---
+
+## 🖥️ Platform Previews & Dashboard
+
+### 1. Executive Summary & Capabilities
+Renders real-time model metrics, audit statistics, and key capability cards in an institutional navy-gold theme.
+![System Capabilities](docs/images/system_capabilities.png)
+
+### 2. Credit Evaluation Worksheet
+An interactive form to load applicant profiles (presets or manual variables) to calculate risk probability.
+![Credit Evaluation Worksheet](docs/images/evaluation_worksheet.png)
+
+### 3. Local Risk Drivers (SHAP)
+Decomposes the exact contribution of each parameter to default risk using local SHAP attributions.
+![Local Risk Drivers](docs/images/risk_drivers.png)
+
+### 4. Quality Verification & Metrics
+Provides full transparency into confusion matrices, global feature split frequencies, and precision/recall curves.
+![Quality Verification](docs/images/quality_metrics.png)
 
 ---
 

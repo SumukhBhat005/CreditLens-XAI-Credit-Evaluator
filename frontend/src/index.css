@@ -1,18 +1,257 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-jpm-bg: #f9f8f6;
-  --color-jpm-panel: #f3efe6;
-  --color-jpm-blue: #0b2240;
-  --color-jpm-gold: #8b7355;
-  --color-jpm-text: #111111;
-  --color-jpm-border: #e2ded5;
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
+
+  /* Primary palette — institutional navy */
+  --color-navy-50: #EFF3F9;
+  --color-navy-100: #D6E0EF;
+  --color-navy-200: #ADBFDE;
+  --color-navy-300: #7A97C7;
+  --color-navy-400: #4A6FA3;
+  --color-navy-500: #1E4D8C;
+  --color-navy-600: #0F3A6E;
+  --color-navy-700: #0A2540;
+  --color-navy-800: #071C30;
+  --color-navy-900: #041220;
+
+  /* Gold accent */
+  --color-gold-50: #FDF8EB;
+  --color-gold-100: #F9EDD0;
+  --color-gold-200: #F0D98F;
+  --color-gold-300: #E5C35A;
+  --color-gold-400: #D4AC2B;
+  --color-gold-500: #C9A227;
+  --color-gold-600: #A68520;
+  --color-gold-700: #7D6418;
+  --color-gold-800: #574610;
+  --color-gold-900: #342A0A;
+
+  /* Neutral warm grays */
+  --color-warm-50: #FAFBFC;
+  --color-warm-100: #F4F5F7;
+  --color-warm-200: #E8EAED;
+  --color-warm-300: #D1D5DB;
+  --color-warm-400: #9CA3AF;
+  --color-warm-500: #6B7280;
+  --color-warm-600: #4B5563;
+  --color-warm-700: #374151;
+  --color-warm-800: #1F2937;
+  --color-warm-900: #111827;
+
+  /* Semantic colors */
+  --color-success-50: #ECFDF5;
+  --color-success-500: #10B981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-danger-50: #FEF2F2;
+  --color-danger-500: #EF4444;
+  --color-danger-600: #DC2626;
+  --color-danger-700: #B91C1C;
+  --color-amber-50: #FFFBEB;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-amber-700: #B45309;
+
+  /* Keyframes */
+  --animate-fade-in-up: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fadeIn 0.4s ease-out forwards;
+}
+
+/* ─── Keyframe Definitions ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── Base Styles ─── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-jpm-bg);
-  color: var(--color-jpm-text);
+  background-color: var(--color-warm-50);
+  color: var(--color-warm-900);
+  overflow-x: hidden;
+  font-size: 15.5px;
+  line-height: 1.65;
+  letter-spacing: 0.015em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-warm-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-warm-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warm-400);
+}
+
+/* ─── Range Slider Custom Styling ─── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--color-warm-200);
+  border-radius: 3px;
+  outline: none;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--color-navy-700);
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(10, 37, 64, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(10, 37, 64, 0.35);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--color-navy-700);
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(10, 37, 64, 0.25);
+}
+
+/* ─── Selection Color ─── */
+::selection {
+  background-color: rgba(10, 37, 64, 0.12);
+  color: var(--color-navy-800);
+}
+
+/* ─── Print Styles ─── */
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12px;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    page-break-before: always;
+  }
+}
+
+/* ─── Compliance Letter Formatting ─── */
+.compliance-letter-container {
+  font-family: var(--font-sans);
+  color: var(--color-warm-805);
+}
+
+.compliance-letter-container p {
+  font-size: 15.5px;
+  line-height: 1.85;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-warm-700);
+}
+
+.compliance-letter-container h1 {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--color-navy-800);
+  border-bottom: 2px solid var(--color-warm-200);
+  padding-bottom: 0.75rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.01em;
+}
+
+.compliance-letter-container h2 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-navy-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2.25rem;
+  margin-bottom: 1.15rem;
+  border-bottom: 1px dashed var(--color-warm-200);
+  padding-bottom: 0.35rem;
+}
+
+.compliance-letter-container h3 {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-navy-700);
+  margin-top: 1.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.compliance-letter-container ul {
+  list-style-type: disc;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1.65rem;
+}
+
+.compliance-letter-container ol {
+  list-style-type: decimal;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1.65rem;
+}
+
+.compliance-letter-container li {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-warm-700);
+}
+
+.compliance-letter-container strong {
+  font-weight: 700;
+  color: var(--color-navy-900);
+}
+
+.compliance-letter-container em {
+  font-style: italic;
+  color: var(--color-warm-500);
+}
+
+.compliance-letter-container hr {
+  border: 0;
+  border-top: 1px solid var(--color-warm-200);
+  margin-top: 2.25rem;
+  margin-bottom: 2.25rem;
 }
