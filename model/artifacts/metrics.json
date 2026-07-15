@@ -1,0 +1,58 @@
+{
+  "cv_auc_mean": 0.9824,
+  "cv_auc_std": 0.0036,
+  "cv_scores": [
+    0.9787,
+    0.9867,
+    0.985,
+    0.9775,
+    0.9839
+  ],
+  "test_auc": 0.9766,
+  "test_f1": 0.7243,
+  "test_precision": 0.677,
+  "test_recall": 0.7786,
+  "confusion_matrix": [
+    [
+      1808,
+      52
+    ],
+    [
+      31,
+      109
+    ]
+  ],
+  "feature_importance": {
+    "credit_score": 2327,
+    "revolving_utilization": 2071,
+    "debt_to_income": 1497,
+    "annual_income": 1487,
+    "loan_amount": 1260,
+    "age": 1205,
+    "employment_length": 1009,
+    "delinquency_30_59": 879,
+    "delinquency_60_89": 753,
+    "open_credit_lines": 716,
+    "delinquency_90_plus": 647,
+    "dependents": 397,
+    "real_estate_loans": 389
+  },
+  "hyperparameters": {
+    "objective": "binary",
+    "metric": "auc",
+    "boosting_type": "gbdt",
+    "learning_rate": 0.05,
+    "num_leaves": 31,
+    "max_depth": 6,
+    "min_child_samples": 20,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "reg_alpha": 0.1,
+    "reg_lambda": 0.1,
+    "scale_pos_weight": 13.285714285714286,
+    "random_state": 42,
+    "n_estimators": 500
+  },
+  "n_train": 8000,
+  "n_test": 2000
+}

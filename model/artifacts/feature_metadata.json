@@ -1,0 +1,37 @@
+{
+  "feature_columns": [
+    "credit_score",
+    "annual_income",
+    "employment_length",
+    "loan_amount",
+    "open_credit_lines",
+    "delinquency_30_59",
+    "delinquency_60_89",
+    "delinquency_90_plus",
+    "revolving_utilization",
+    "real_estate_loans",
+    "dependents",
+    "age",
+    "debt_to_income"
+  ],
+  "feature_descriptions": {
+    "credit_score": "Credit Score",
+    "annual_income": "Annual Income",
+    "employment_length": "Employment Length (years)",
+    "loan_amount": "Loan Amount Requested",
+    "open_credit_lines": "Number of Open Credit Lines",
+    "delinquency_30_59": "30-59 Day Late Payments (last 2 years)",
+    "delinquency_60_89": "60-89 Day Late Payments (last 2 years)",
+    "delinquency_90_plus": "90+ Day Late Payments (last 2 years)",
+    "revolving_utilization": "Revolving Credit Utilization (%)",
+    "real_estate_loans": "Number of Real Estate Loans",
+    "dependents": "Number of Dependents",
+    "age": "Applicant Age",
+    "debt_to_income": "Debt-to-Income Ratio"
+  },
+  "target_column": "default",
+  "train_size": 8000,
+  "test_size": 2000,
+  "default_rate_train": 0.07,
+  "default_rate_test": 0.07
+}
