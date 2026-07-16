@@ -9,7 +9,6 @@ Returns ranked feature contributions with human-readable descriptions.
 import shap
 import numpy as np
 import json
-import joblib
 
 
 # ── Load feature metadata ───────────────────────────────────────────
