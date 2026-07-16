@@ -1,37 +1,32 @@
 {
   "feature_columns": [
-    "credit_score",
-    "annual_income",
-    "employment_length",
-    "loan_amount",
-    "open_credit_lines",
-    "delinquency_30_59",
-    "delinquency_60_89",
-    "delinquency_90_plus",
     "revolving_utilization",
-    "real_estate_loans",
-    "dependents",
     "age",
-    "debt_to_income"
+    "delinquency_30_59",
+    "debt_to_income",
+    "annual_income",
+    "open_credit_lines",
+    "delinquency_90_plus",
+    "real_estate_loans",
+    "delinquency_60_89",
+    "dependents"
   ],
   "feature_descriptions": {
-    "credit_score": "Credit Score",
-    "annual_income": "Annual Income",
-    "employment_length": "Employment Length (years)",
-    "loan_amount": "Loan Amount Requested",
-    "open_credit_lines": "Number of Open Credit Lines",
-    "delinquency_30_59": "30-59 Day Late Payments (last 2 years)",
-    "delinquency_60_89": "60-89 Day Late Payments (last 2 years)",
-    "delinquency_90_plus": "90+ Day Late Payments (last 2 years)",
     "revolving_utilization": "Revolving Credit Utilization (%)",
+    "age": "Borrower Age",
+    "delinquency_30_59": "30-59 Day Late Payments (last 2 yrs)",
+    "debt_to_income": "Debt-to-Income Ratio",
+    "annual_income": "Annual Income",
+    "open_credit_lines": "Open Credit Lines & Loans",
+    "delinquency_90_plus": "90+ Day Serious Delinquencies (last 2 yrs)",
     "real_estate_loans": "Number of Real Estate Loans",
-    "dependents": "Number of Dependents",
-    "age": "Applicant Age",
-    "debt_to_income": "Debt-to-Income Ratio"
+    "delinquency_60_89": "60-89 Day Late Payments (last 2 yrs)",
+    "dependents": "Number of Dependents"
   },
   "target_column": "default",
-  "train_size": 8000,
-  "test_size": 2000,
-  "default_rate_train": 0.07,
-  "default_rate_test": 0.07
+  "train_size": 120000,
+  "test_size": 30000,
+  "default_rate_train": 0.06684166666666666,
+  "default_rate_test": 0.06683333333333333,
+  "data_source": "Kaggle 'Give Me Some Credit' (150K real anonymized borrower records)"
 }

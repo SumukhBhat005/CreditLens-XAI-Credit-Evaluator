@@ -32,8 +32,8 @@ def _generate_template_letter(
     if decision == "DENIED":
         header = "NOTICE OF ADVERSE ACTION"
         intro = (
-            f"After careful evaluation of your loan application, we regret to inform you that "
-            f"your request for a loan of ${applicant.get('loan_amount', 0):,} has been **denied**. "
+            f"After careful evaluation of your application, we regret to inform you that "
+            f"your request for credit has been **denied**. "
             f"Our automated risk assessment system evaluated your application and determined a "
             f"default probability of **{probability:.1%}** (Risk Level: **{risk_level}**)."
         )
@@ -41,8 +41,7 @@ def _generate_template_letter(
     else:
         header = "NOTICE OF CREDIT APPROVAL"
         intro = (
-            f"We are pleased to inform you that your loan application for "
-            f"${applicant.get('loan_amount', 0):,} has been **approved**. "
+            f"We are pleased to inform you that your request for credit has been **approved**. "
             f"Our risk assessment determined a default probability of **{probability:.1%}** "
             f"(Risk Level: **{risk_level}**), which falls within our acceptable lending parameters."
         )
@@ -140,8 +139,6 @@ def _generate_llm_letter(
     
     client = Groq(api_key=GROQ_API_KEY)
     
-    loan_amt = applicant.get("loan_amount", 0)
-    
     system_prompt = """You are a senior credit risk compliance officer at an Indian financial institution. 
 You write adverse action notices and approval letters that comply with RBI Fair Practices Code and federal credit regulations.
 
@@ -154,12 +151,11 @@ STRICT RULES:
 6. Never use discriminatory language or reference protected characteristics.
 7. Keep the letter concise but thorough — approximately 300-400 words."""
 
-    user_prompt = f"""Generate an official {decision} letter for a loan application.
+    user_prompt = f"""Generate an official {decision} letter for a credit application.
 
 DECISION: {decision}
 PROBABILITY OF DEFAULT: {probability:.1%}
 RISK LEVEL: {risk_level}
-LOAN AMOUNT: ${loan_amt:,}
 
 SHAP ANALYSIS (ranked by impact — these are the ONLY factors you may cite):
 {shap_text}

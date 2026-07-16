@@ -1,41 +1,38 @@
 {
-  "cv_auc_mean": 0.9824,
-  "cv_auc_std": 0.0036,
+  "cv_auc_mean": 0.8589,
+  "cv_auc_std": 0.0039,
   "cv_scores": [
-    0.9787,
-    0.9867,
-    0.985,
-    0.9775,
-    0.9839
+    0.8621,
+    0.8579,
+    0.8556,
+    0.8542,
+    0.8646
   ],
-  "test_auc": 0.9766,
-  "test_f1": 0.7243,
-  "test_precision": 0.677,
-  "test_recall": 0.7786,
+  "test_auc": 0.8646,
+  "test_f1": 0.3467,
+  "test_precision": 0.2257,
+  "test_recall": 0.7471,
   "confusion_matrix": [
     [
-      1808,
-      52
+      22856,
+      5139
     ],
     [
-      31,
-      109
+      507,
+      1498
     ]
   ],
   "feature_importance": {
-    "credit_score": 2327,
-    "revolving_utilization": 2071,
-    "debt_to_income": 1497,
-    "annual_income": 1487,
-    "loan_amount": 1260,
-    "age": 1205,
-    "employment_length": 1009,
-    "delinquency_30_59": 879,
-    "delinquency_60_89": 753,
-    "open_credit_lines": 716,
-    "delinquency_90_plus": 647,
-    "dependents": 397,
-    "real_estate_loans": 389
+    "annual_income": 2641,
+    "debt_to_income": 2549,
+    "revolving_utilization": 2456,
+    "age": 2419,
+    "open_credit_lines": 1752,
+    "real_estate_loans": 695,
+    "dependents": 660,
+    "delinquency_30_59": 605,
+    "delinquency_90_plus": 385,
+    "delinquency_60_89": 372
   },
   "hyperparameters": {
     "objective": "binary",
@@ -49,10 +46,10 @@
     "colsample_bytree": 0.8,
     "reg_alpha": 0.1,
     "reg_lambda": 0.1,
-    "scale_pos_weight": 13.285714285714286,
+    "scale_pos_weight": 13.960728088766986,
     "random_state": 42,
     "n_estimators": 500
   },
-  "n_train": 8000,
-  "n_test": 2000
+  "n_train": 120000,
+  "n_test": 30000
 }

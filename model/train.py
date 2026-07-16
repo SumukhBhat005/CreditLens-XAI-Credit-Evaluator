@@ -104,7 +104,7 @@ test_precision = precision_score(y_test, y_pred)
 test_recall = recall_score(y_test, y_pred)
 cm = confusion_matrix(y_test, y_pred)
 
-print(f"\n  ── Test Set Results ──────────────────────────────")
+print(f"\n  -- Test Set Results ------------------------------")
 print(f"  AUC-ROC   : {test_auc:.4f}")
 print(f"  F1-Score  : {test_f1:.4f}")
 print(f"  Precision : {test_precision:.4f}")
@@ -118,7 +118,7 @@ print(f"\n{classification_report(y_test, y_pred, target_names=['No Default', 'De
 importances = final_model.feature_importances_
 sorted_idx = np.argsort(importances)[::-1]
 
-print("  ── Feature Importance (by split) ─────────────────")
+print("  -- Feature Importance (by split) -----------------")
 for idx in sorted_idx:
     print(f"    {feature_names[idx]:35s}  {importances[idx]:>6}")
 
@@ -147,10 +147,10 @@ metrics = {
 with open("model/artifacts/metrics.json", "w") as f:
     json.dump(metrics, f, indent=2)
 
-print(f"  ✓ Model saved to model/artifacts/lgbm_model.pkl")
-print(f"  ✓ Metrics saved to model/artifacts/metrics.json")
+print(f"  [+] Model saved to model/artifacts/lgbm_model.pkl")
+print(f"  [+] Metrics saved to model/artifacts/metrics.json")
 
 print(f"\n{'=' * 60}")
-print("  ✓ MODEL TRAINING COMPLETE")
+print("  [+] MODEL TRAINING COMPLETE")
 print(f"  Test AUC: {test_auc:.4f} | F1: {test_f1:.4f}")
 print(f"{'=' * 60}\n")

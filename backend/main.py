@@ -54,10 +54,10 @@ try:
         model_metrics = json.load(f)
     
     FEATURE_COLS = feature_metadata["feature_columns"]
-    print(f"[STARTUP] ✓ Model loaded ({len(FEATURE_COLS)} features)")
-    print(f"[STARTUP] ✓ Test AUC: {model_metrics['test_auc']}")
+    print(f"[STARTUP] [+] Model loaded ({len(FEATURE_COLS)} features)")
+    print(f"[STARTUP] [+] Test AUC: {model_metrics['test_auc']}")
 except Exception as e:
-    print(f"[STARTUP] ✗ Failed to load model: {e}")
+    print(f"[STARTUP] [-] Failed to load model: {e}")
     print("[STARTUP] Run 'python data/generate_dataset.py && python data/preprocess.py && python model/train.py' first")
     model = None
     preprocessor = None
@@ -101,12 +101,6 @@ async def predict(applicant: ApplicantInput):
     
     # Convert input to dict and then to DataFrame
     raw_input = applicant.model_dump()
-    
-    # Compute debt-to-income ratio
-    monthly_payment_factor = 0.03
-    raw_input["debt_to_income"] = round(
-        (raw_input["loan_amount"] * monthly_payment_factor * 12) / raw_input["annual_income"], 3
-    )
     
     # Create DataFrame with features in correct order
     input_df = pd.DataFrame([{col: raw_input[col] for col in FEATURE_COLS}])

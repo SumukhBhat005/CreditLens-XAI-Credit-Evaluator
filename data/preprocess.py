@@ -2,7 +2,8 @@
 data/preprocess.py
 ──────────────────
 Preprocessing pipeline for CreditLens.
-Loads raw dataset, handles outliers, builds a sklearn ColumnTransformer,
+Loads the prepared dataset (from Kaggle "Give Me Some Credit"),
+handles outliers, builds a sklearn ColumnTransformer,
 does stratified train/test split, and saves artifacts for inference.
 """
 
@@ -17,70 +18,76 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 
 print("=" * 60)
-print("  CreditLens — Preprocessing Pipeline")
+print("  CreditLens -- Preprocessing Pipeline")
+print("  Dataset: Kaggle 'Give Me Some Credit' (150K real records)")
 print("=" * 60)
 
 # ── Load raw data ───────────────────────────────────────────────────
-print("\n[1/5] Loading raw dataset...")
+print("\n[1/5] Loading prepared dataset...")
 df = pd.read_csv("data/raw/credit_risk_dataset.csv")
-print(f"  ✓ Loaded {len(df):,} rows, {len(df.columns)} columns")
+print(f"  Loaded {len(df):,} rows, {len(df.columns)} columns")
 
 # ── Feature definitions ─────────────────────────────────────────────
+# These 10 features come directly from the Kaggle dataset
 FEATURE_COLS = [
-    "credit_score",
-    "annual_income",
-    "employment_length",
-    "loan_amount",
-    "open_credit_lines",
-    "delinquency_30_59",
-    "delinquency_60_89",
-    "delinquency_90_plus",
     "revolving_utilization",
-    "real_estate_loans",
-    "dependents",
     "age",
+    "delinquency_30_59",
     "debt_to_income",
+    "annual_income",
+    "open_credit_lines",
+    "delinquency_90_plus",
+    "real_estate_loans",
+    "delinquency_60_89",
+    "dependents",
 ]
 
 TARGET_COL = "default"
 
 # Human-readable feature names (for SHAP explanations)
 FEATURE_DESCRIPTIONS = {
-    "credit_score":            "Credit Score",
-    "annual_income":           "Annual Income",
-    "employment_length":       "Employment Length (years)",
-    "loan_amount":             "Loan Amount Requested",
-    "open_credit_lines":       "Number of Open Credit Lines",
-    "delinquency_30_59":       "30-59 Day Late Payments (last 2 years)",
-    "delinquency_60_89":       "60-89 Day Late Payments (last 2 years)",
-    "delinquency_90_plus":     "90+ Day Late Payments (last 2 years)",
-    "revolving_utilization":   "Revolving Credit Utilization (%)",
-    "real_estate_loans":       "Number of Real Estate Loans",
-    "dependents":              "Number of Dependents",
-    "age":                     "Applicant Age",
-    "debt_to_income":          "Debt-to-Income Ratio",
+    "revolving_utilization":  "Revolving Credit Utilization (%)",
+    "age":                    "Borrower Age",
+    "delinquency_30_59":      "30-59 Day Late Payments (last 2 yrs)",
+    "debt_to_income":         "Debt-to-Income Ratio",
+    "annual_income":          "Annual Income",
+    "open_credit_lines":      "Open Credit Lines & Loans",
+    "delinquency_90_plus":    "90+ Day Serious Delinquencies (last 2 yrs)",
+    "real_estate_loans":      "Number of Real Estate Loans",
+    "delinquency_60_89":      "60-89 Day Late Payments (last 2 yrs)",
+    "dependents":             "Number of Dependents",
 }
 
 # ── Outlier handling ────────────────────────────────────────────────
 print("[2/5] Handling outliers...")
 initial_count = len(df)
 
-# Cap extreme values
+# Cap extreme values to realistic ranges
+# revolving_utilization: some Kaggle records have absurd values (50000%)
 df["revolving_utilization"] = df["revolving_utilization"].clip(0, 150)
-df["debt_to_income"] = df["debt_to_income"].clip(0, 5)
-df["annual_income"] = df["annual_income"].clip(10000, 500000)
 
-print(f"  ✓ Outliers capped (no rows removed, {len(df):,} rows remain)")
+# debt_to_income: realistic upper bound
+df["debt_to_income"] = df["debt_to_income"].clip(0, 5)
+
+# annual_income: cap at realistic bounds
+df["annual_income"] = df["annual_income"].clip(0, 1_000_000)
+
+# Delinquency fields: cap at realistic values (some have 96/98 = special codes)
+df["delinquency_30_59"] = df["delinquency_30_59"].clip(0, 15)
+df["delinquency_60_89"] = df["delinquency_60_89"].clip(0, 15)
+df["delinquency_90_plus"] = df["delinquency_90_plus"].clip(0, 15)
+
+print(f"  Outliers capped (no rows removed, {len(df):,} rows remain)")
 
 # ── Check for missing values ────────────────────────────────────────
 print("[3/5] Checking for missing values...")
 missing = df[FEATURE_COLS].isnull().sum()
 if missing.sum() > 0:
-    print(f"  ⚠ Missing values found:")
+    print(f"  Missing values found:")
     for col, count in missing[missing > 0].items():
         print(f"    {col}: {count} ({100*count/len(df):.1f}%)")
 else:
-    print(f"  ✓ No missing values found")
+    print(f"  No missing values found")
 
 # ── Build preprocessing pipeline ───────────────────────────────────
 print("[4/5] Building sklearn preprocessing pipeline...")
@@ -106,12 +113,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-print(f"  Train set: {len(X_train):,} rows ({y_train.mean():.1%} default rate)")
-print(f"  Test set:  {len(X_test):,} rows ({y_test.mean():.1%} default rate)")
+print(f"  Train set: {len(X_train):,} rows ({y_train.mean():.2%} default rate)")
+print(f"  Test set:  {len(X_test):,} rows ({y_test.mean():.2%} default rate)")
 
 # Fit the preprocessor on training data only
 preprocessor.fit(X_train)
-print(f"  ✓ Preprocessor fitted on training data")
+print(f"  Preprocessor fitted on training data")
 
 # Transform both sets
 X_train_processed = preprocessor.transform(X_train)
@@ -142,14 +149,15 @@ metadata = {
     "test_size": len(X_test),
     "default_rate_train": float(y_train.mean()),
     "default_rate_test": float(y_test.mean()),
+    "data_source": "Kaggle 'Give Me Some Credit' (150K real anonymized borrower records)",
 }
 with open("model/artifacts/feature_metadata.json", "w") as f:
     json.dump(metadata, f, indent=2)
 
-print(f"  ✓ Saved X_train.npy, X_test.npy, y_train.npy, y_test.npy")
-print(f"  ✓ Saved preprocessor.pkl")
-print(f"  ✓ Saved feature_metadata.json")
+print(f"  Saved X_train.npy, X_test.npy, y_train.npy, y_test.npy")
+print(f"  Saved preprocessor.pkl")
+print(f"  Saved feature_metadata.json")
 
 print(f"\n{'=' * 60}")
-print("  → Next step: python model/train.py")
+print("  Next step: python model/train.py")
 print(f"{'=' * 60}\n")

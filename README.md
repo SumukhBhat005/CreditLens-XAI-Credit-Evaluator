@@ -35,11 +35,11 @@ CreditLens solves this gap by wrapping a high-performance **LightGBM binary clas
 
 ## ✨ Key Features
 
-- **High-Performance Credit Classifier** — LightGBM model trained on a 10,000-applicant synthetic credit risk dataset, optimizing for class imbalance and AUC-ROC.
+- **High-Performance Credit Classifier** — LightGBM model trained on a 150,000-applicant real credit risk dataset (Kaggle "Give Me Some Credit"), optimizing for class imbalance and AUC-ROC.
 - **Local SHAP Attributions** — Computes exact, per-feature contributions using a `TreeExplainer`, mapping model outputs directly to specific applicant data.
 - **Dual-Mode LLM Letter Generator** — Generates formal adverse action notices or approval letters using Llama 3.3 via Groq API. Automatically falls back to high-fidelity template logic if no API token is present.
 - **Interactive Risk Dashboard** — Renders decision metrics, risk probability gauges, local SHAP waterfall charts (built client-side in Recharts), and styled letters.
-- **Demo Presets** — Quick-load buttons representing Tier-A (Low Risk), Borderline, and High Risk profiles for instant evaluation.
+- **Demo Presets** — Quick-load buttons representing Low Risk, Borderline, and High Risk profiles for instant evaluation.
 - **Model Validation Panel** — Displays live performance metrics (AUC, F1, Precision, Recall), confusion matrices, and global feature importance.
 
 ---
@@ -61,6 +61,10 @@ Decomposes the exact contribution of each parameter to default risk using local 
 ### 4. Quality Verification & Metrics
 Provides full transparency into confusion matrices, global feature split frequencies, and precision/recall curves.
 ![Quality Verification](docs/images/quality_metrics.png)
+
+### 5. Regulatory Compliance Letter
+Generates a detailed, compliance-grounded Adverse Action notice explaining the decision to the applicant.
+![Adverse Action Compliance Letter](docs/images/compliance_letter.png)
 
 ---
 
@@ -109,17 +113,17 @@ The LightGBM model is validated using a stratified 80/20 train/test split. Cross
 
 | Evaluation Metric | Score | Detail |
 |:---|:---:|:---|
-| **Mean CV AUC-ROC** | **98.24%** | Measured over 5 Stratified K-Folds (± 0.36%) |
-| **Test Set AUC-ROC** | **97.66%** | High separation capacity between default/non-default |
-| **Precision** | **67.70%** | Minimizes false positives (unnecessary credit denial) |
-| **Recall** | **77.86%** | Catches the vast majority of actual defaults |
-| **F1-Score** | **0.7243** | Balanced performance on imbalanced target class |
+| **Mean CV AUC-ROC** | **85.89%** | Measured over 5 Stratified K-Folds (± 0.39%) |
+| **Test Set AUC-ROC** | **86.46%** | High separation capacity between default/non-default |
+| **Precision** | **22.57%** | Imbalance-adjusted precision rate |
+| **Recall** | **74.71%** | Catches ~75% of actual defaults |
+| **F1-Score** | **0.3467** | Balanced performance on imbalanced target class |
 
 ### Confusion Matrix (Test Set)
-- **True Negatives (TN):** `1808` (Correctly approved low-risk applicants)
-- **False Positives (FP):** `52` (Rejected low-risk applicants)
-- **False Negatives (FN):** `31` (Approved high-risk default applicants)
-- **True Positives (TP):** `109` (Correctly rejected high-risk default applicants)
+- **True Negatives (TN):** `22,856` (Correctly approved low-risk applicants)
+- **False Positives (FP):** `5,139` (Rejected low-risk applicants)
+- **False Negatives (FN):** `507` (Approved high-risk default applicants)
+- **True Positives (TP):** `1,498` (Correctly rejected high-risk default applicants)
 
 ---
 
@@ -164,9 +168,9 @@ The React frontend will be accessible at the address printed in the terminal (us
 CreditLens/
 ├── backend/
 │   ├── main.py              # FastAPI application server
-│   ├── predict.py           # Preprocessing & model inference
 │   ├── llm_letter.py        # Groq/Llama letter generator + fallback templates
-│   └── schemas.py           # Pydantic validation schemas
+│   ├── schemas.py           # Pydantic validation schemas
+│   └── requirements.txt     # Python package requirements
 │
 ├── model/
 │   ├── train.py             # LightGBM classifier training
@@ -174,7 +178,7 @@ CreditLens/
 │   └── artifacts/           # Saved pickles, schemas, and metrics.json
 │
 ├── data/
-│   ├── generate_dataset.py  # Synthetic data generation engine
+│   ├── load_kaggle_data.py  # Kaggle data processing and loading
 │   └── preprocess.py        # Outlier handling & fit scaling pipeline
 │
 └── frontend/
